@@ -1,6 +1,6 @@
 F,Vm,Vlc,Dialexctric?,Distance between plates,Resonanc Point?,
 172.32,3.73,2.94,Yes,,TRUE(171.76 might be real one),
-169.02,4.502,4.43,,,,
+169.02,4.502,4.43,,,,2.2mHenry inductor,150Ohm resistor,
 166.14,4.8,7.013,,,,
 163.08,4.8,9.77,,,,
 160.06,4.39,10.95,,,,
