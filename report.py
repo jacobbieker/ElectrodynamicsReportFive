@@ -86,10 +86,17 @@ def create_graph(frequency, vm, vlc, num_inductors):
 
     print(curve_fit(equation, (w_nought, num_inductors*2.2, w_nought[index]), vm_vlc))
     popt, pcov = curve_fit(equation, (w_nought, num_inductors*2.2, w_nought[index]), vm_vlc)
+    print(w_nought)
+    min_val = min(w_nought)
+    fit_line = np.linspace(min_val, max(w_nought), num=100)
+    y_fit = []
+    for element in fit_line:
+        y_fit.append(equation((element, num_inductors*2.2, w_nought[index]), popt-(pcov[0]/3)))
 
     vm_vlc = [x for (y, x) in sorted(zip(w_nought, vm_vlc))]
     w_nought = sorted(w_nought)
 
+    plt.plot(fit_line, y_fit)
     plt.plot(w_nought,vm_vlc)
     return max(vm_vlc)
 
