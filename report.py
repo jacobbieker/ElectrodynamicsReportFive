@@ -2,6 +2,8 @@ import os, csv, math
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import UnivariateSpline
+from scipy.optimize import curve_fit
+import numpy.polynomial.polynomial as poly
 
 data = []
 data1 = []
@@ -49,10 +51,12 @@ def get_c(L, w_nought):
 def get_gamma(R):
     return R/2
 
-def equation(R, Rm, L, w_nought, w):
+def equation(X, R):
     # A is 150/?
     # A2Γ2/(4(ω−ω0)2+Γ2/4)
-    top = ((Rm/R)**2)*((R/L)**2)/4
+    w, L, w_nought = X
+    w = np.asarray(w)
+    top = ((150/R)**2)*((R/L)**2)/4
     bottom = (w - w_nought)**2 + ((R/L)**2)/4
     return top/bottom
 
@@ -76,12 +80,17 @@ def create_graph(frequency, vm, vlc, num_inductors):
         d = np.asarray(d)
         indexes = np.where(d > 0)[0]
         return abs(X[indexes[-1]] - X[indexes[0]])
-
-    print(w_nought)
     print("FWHM:" + str(FWHM(vm_vlc, w_nought)))
-    print(vm_vlc)
 
-    plt.scatter(w_nought,vm_vlc)
+    index = w_nought.index(max(w_nought))
+
+    print(curve_fit(equation, (w_nought, num_inductors*2.2, w_nought[index]), vm_vlc))
+    popt, pcov = curve_fit(equation, (w_nought, num_inductors*2.2, w_nought[index]), vm_vlc)
+
+    vm_vlc = [x for (y, x) in sorted(zip(w_nought, vm_vlc))]
+    w_nought = sorted(w_nought)
+
+    plt.plot(w_nought,vm_vlc)
     return max(vm_vlc)
 
 Rc = []
