@@ -82,16 +82,19 @@ def create_graph(frequency, vm, vlc, num_inductors):
     print(vm_vlc)
 
     plt.scatter(w_nought,vm_vlc)
+    return max(vm_vlc)
 
-create_graph(data[0][0], data[0][1], data[0][2], 1)
-create_graph(data_no[0][0], data_no[0][1], data_no[0][2], 1)
+Rc = []
+one = create_graph(data[0][0], data[0][1], data[0][2], 1)
+two = create_graph(data_no[0][0], data_no[0][1], data_no[0][2], 1)
 plt.title("One Inductor")
 plt.ylabel("(Vm/Vlc)^2")
 plt.xlabel("w0")
+print("Rc?" + str(one/two))
 plt.show()
 
-create_graph(data[1][0], data[1][1], data[1][2], 2)
-create_graph(data_no[1][0], data_no[1][1], data_no[1][2], 2)
+one = create_graph(data[1][0], data[1][1], data[1][2], 2)
+two = create_graph(data_no[1][0], data_no[1][1], data_no[1][2], 2)
 plt.title("Two Inductors")
 plt.ylabel("(Vm/Vlc)^2")
 plt.xlabel("w0")
